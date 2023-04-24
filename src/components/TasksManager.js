@@ -16,9 +16,7 @@ class TasksManager extends React.Component {
 	inputHandler = e => {
 		const { value } = e.target;
 		this.setState({
-			task: {
-				name: value,
-			},
+			task: { name: value },
 		});
 	};
 
