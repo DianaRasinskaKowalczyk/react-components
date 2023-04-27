@@ -55,22 +55,6 @@
       "isRunning": false,
       "isDone": false,
       "isRemoved": false
-    },
-    {
-      "name": "Zadanie 1",
-      "id": 8,
-      "time": "0",
-      "isRunning": false,
-      "isDone": false,
-      "isRemoved": false
-    },
-    {
-      "name": "Zadanie 1",
-      "id": 9,
-      "time": "0",
-      "isRunning": false,
-      "isDone": false,
-      "isRemoved": false
     }
   ]
 }

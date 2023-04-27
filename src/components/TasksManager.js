@@ -97,19 +97,15 @@ class TasksManager extends React.Component {
 		e.preventDefault();
 		const { task } = this.state;
 
-		const promise = postFetch(task);
-		promise.then(taskWithId => this.addTask(taskWithId));
+		postFetch(task).then(taskWithId => this.addTask(taskWithId));
 	};
 
 	addTask(newTask) {
 		const { tasks, task } = this.state;
-		this.setState(
-			{
-				tasks: [...tasks, newTask],
-				task: { ...task, name: "" },
-			},
-			() => console.log(tasks)
-		);
+		this.setState({
+			tasks: [...tasks, newTask],
+			task: { ...task, name: "" },
+		});
 	}
 
 	// START TIMER
@@ -133,21 +129,19 @@ class TasksManager extends React.Component {
 					tasks: newTasks,
 				};
 			},
-			() => this.updateStartApi()
+			() => this.updateStartApi(taskId)
 		);
 	}
 
-	updateStartApi() {
+	updateStartApi(taskId) {
 		const { tasks } = this.state;
 		const updatedTask = tasks.find(task => {
-			task.isRunning === true;
+			task.id === taskId;
 		});
 
 		console.log(updatedTask.id);
 		updateFetch(updatedTask);
 	}
-
-	//STOP TIMER
 
 	stopTimer = taskId => {
 		clearInterval(this.interval);
@@ -167,16 +161,14 @@ class TasksManager extends React.Component {
 					tasks: newTasks,
 				};
 			},
-			() => this.updateStopApi()
+			() => this.updateStopApi(taskId)
 		);
 	}
 
-	updateStopApi() {
+	updateStopApi(taskId) {
 		const { tasks } = this.state;
 		const updatedTask = tasks.find(task => {
-			if (task.isRunning === true) {
-				task.isRunning = false;
-			}
+			task.id === taskId;
 		});
 		updateFetch(updatedTask);
 	}
