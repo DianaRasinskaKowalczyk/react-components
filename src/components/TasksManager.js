@@ -1,5 +1,6 @@
 import React from "react";
 import { postFetch } from "./handleApi";
+import { updateFetch } from "./handleApi";
 
 class TasksManager extends React.Component {
 	state = {
@@ -8,9 +9,9 @@ class TasksManager extends React.Component {
 			name: "",
 			id: "",
 			time: "0",
-			isRunning: "false",
-			isDone: "false",
-			isRemoved: "false",
+			isRunning: false,
+			isDone: false,
+			isRemoved: false,
 		},
 	};
 
@@ -25,7 +26,14 @@ class TasksManager extends React.Component {
 						<p>{this.createTimer(task.time)}</p>
 					</header>
 					<footer>
-						<button>{task.isRunning ? "start" : "stop"}</button>
+						<button
+							onClick={
+								task.isRunning === false
+									? this.startTimer(task.id)
+									: this.stopTimer(task.id)
+							}>
+							{task.isRunning === false ? "start" : "stop"}
+						</button>
 						<button>zakończone</button>
 						<button disabled='true'>usuń</button>
 					</footer>
@@ -99,6 +107,71 @@ class TasksManager extends React.Component {
 			tasks: [...tasks, newTask],
 			task: { ...task, name: "" },
 		});
+	}
+
+	startTimer = taskId => {
+		this.interval = setInterval(() => {
+			this.incrementTime(taskId);
+		}, 1000);
+	};
+
+	incrementTime(taskId) {
+		this.setState(
+			state => {
+				const newTasks = state.tasks.map(task => {
+					if (task.id === taskId) {
+						return { ...task, time: task.time + 1, isRunning: true };
+					}
+					return task;
+				});
+				return {
+					tasks: newTasks,
+				};
+			},
+			() => this.updateStartApi()
+		);
+	}
+
+	updateStartApi() {
+		const { tasks } = this.state;
+		const updatedTask = tasks.find(task => {
+			task.isRunning === true;
+		});
+
+		updateFetch(updatedTask);
+	}
+
+	stopTimer = taskId => {
+		clearInterval(this.interval);
+		this.updateStopInterval(taskId);
+	};
+
+	updateStopInterval(taskId) {
+		this.setState(
+			state => {
+				const newTasks = state.tasks.map(task => {
+					if (task.id === taskId) {
+						return { ...task, isRunning: false };
+					}
+					return task;
+				});
+				return {
+					tasks: newTasks,
+				};
+			},
+			() => this.updateStopApi()
+		);
+	}
+
+	updateStopApi() {
+		const { tasks } = this.state;
+		const updatedTask = tasks.find(task => {
+			if (task.isRunning === true) {
+				task.isRunning = false;
+			}
+		});
+
+		updateFetch(updatedTask);
 	}
 }
 

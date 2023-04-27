@@ -10,6 +10,15 @@ export function postFetch(task) {
 	return handleFetch(options);
 }
 
+export function updateFetch(task) {
+	const options = {
+		method: "PUT",
+		body: JSON.stringify(task),
+		headers: { "Content-Type": "application/json" },
+	};
+	return handleFetch(options);
+}
+
 export function handleFetch(options, additionalPath = "") {
 	const path = url + additionalPath;
 	const promise = fetch(path, options);
