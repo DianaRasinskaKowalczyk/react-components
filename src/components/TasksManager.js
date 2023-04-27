@@ -27,11 +27,11 @@ class TasksManager extends React.Component {
 					</header>
 					<footer>
 						<button
-							onClick={
+							onClick={() => {
 								task.isRunning === false
 									? this.startTimer(task.id)
-									: this.stopTimer(task.id)
-							}>
+									: this.stopTimer(task.id);
+							}}>
 							{task.isRunning === false ? "start" : "stop"}
 						</button>
 						<button>zakończone</button>
@@ -97,17 +97,22 @@ class TasksManager extends React.Component {
 		e.preventDefault();
 		const { task } = this.state;
 
-		postFetch(task);
-		this.addTask(task);
+		const promise = postFetch(task);
+		promise.then(taskWithId => this.addTask(taskWithId));
 	};
 
 	addTask(newTask) {
 		const { tasks, task } = this.state;
-		this.setState({
-			tasks: [...tasks, newTask],
-			task: { ...task, name: "" },
-		});
+		this.setState(
+			{
+				tasks: [...tasks, newTask],
+				task: { ...task, name: "" },
+			},
+			() => console.log(tasks)
+		);
 	}
+
+	// START TIMER
 
 	startTimer = taskId => {
 		this.interval = setInterval(() => {
@@ -138,8 +143,11 @@ class TasksManager extends React.Component {
 			task.isRunning === true;
 		});
 
+		console.log(updatedTask.id);
 		updateFetch(updatedTask);
 	}
+
+	//STOP TIMER
 
 	stopTimer = taskId => {
 		clearInterval(this.interval);
@@ -170,7 +178,6 @@ class TasksManager extends React.Component {
 				task.isRunning = false;
 			}
 		});
-
 		updateFetch(updatedTask);
 	}
 }

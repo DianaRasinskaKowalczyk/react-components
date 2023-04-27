@@ -1,4 +1,4 @@
-const url = "http://localhost:3005/data/";
+const url = "http://localhost:3005/data";
 
 export function postFetch(task) {
 	const options = {
@@ -6,20 +6,18 @@ export function postFetch(task) {
 		body: JSON.stringify(task),
 		headers: { "Content-Type": "application/json" },
 	};
-
 	return handleFetch(options);
 }
-
 export function updateFetch(task) {
 	const options = {
 		method: "PUT",
 		body: JSON.stringify(task),
 		headers: { "Content-Type": "application/json" },
 	};
-	return handleFetch(options);
+	return handleFetch(options, `/${task.id}`);
 }
 
-export function handleFetch(options, additionalPath = "") {
+function handleFetch(options, additionalPath = "") {
 	const path = url + additionalPath;
 	const promise = fetch(path, options);
 	return promise
