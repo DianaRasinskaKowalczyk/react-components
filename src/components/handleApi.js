@@ -17,7 +17,7 @@ export function updateFetch(task) {
 	return handleFetch(options, `/${task.id}`);
 }
 
-function handleFetch(options, additionalPath = "") {
+export function handleFetch(options, additionalPath = "") {
 	const path = url + additionalPath;
 	const promise = fetch(path, options);
 	return promise

@@ -3,57 +3,33 @@
     {
       "name": "Zadanie 1",
       "id": 1,
-      "time": 0,
+      "time": 1,
       "isRunning": false,
-      "isDone": false,
+      "isDone": true,
       "isRemoved": false
     },
     {
-      "name": "Zadanie 1",
+      "name": "Zadanie 2",
       "id": 2,
-      "time": "0",
+      "time": 0,
       "isRunning": false,
-      "isDone": false,
+      "isDone": true,
       "isRemoved": false
     },
     {
       "name": "Zadanie 1",
       "id": 3,
-      "time": "0",
+      "time": 3,
       "isRunning": false,
-      "isDone": false,
+      "isDone": true,
       "isRemoved": false
     },
     {
       "name": "Zadanie 1",
       "id": 4,
-      "time": "0",
+      "time": 1,
       "isRunning": false,
-      "isDone": false,
-      "isRemoved": false
-    },
-    {
-      "name": "Zadanie 1",
-      "id": 5,
-      "time": "0",
-      "isRunning": false,
-      "isDone": false,
-      "isRemoved": false
-    },
-    {
-      "name": "Zadanie 1",
-      "id": 6,
-      "time": "0",
-      "isRunning": false,
-      "isDone": false,
-      "isRemoved": false
-    },
-    {
-      "name": "Zadanie 1",
-      "id": 7,
-      "time": "0",
-      "isRunning": false,
-      "isDone": false,
+      "isDone": true,
       "isRemoved": false
     }
   ]
