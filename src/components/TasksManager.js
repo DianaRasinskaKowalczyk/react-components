@@ -161,12 +161,7 @@ class TasksManager extends React.Component {
 	}
 
 	updateStartApi(taskId) {
-		const { tasks } = this.state;
-		const updatedTask = tasks.find(task => {
-			return task.id === taskId;
-		});
-
-		console.log(updatedTask.id);
+		const updatedTask = this.findTask(taskId);
 		updateFetch(updatedTask);
 	}
 
@@ -196,11 +191,16 @@ class TasksManager extends React.Component {
 	}
 
 	updateStopApi(taskId) {
+		const updatedTask = this.findTask(taskId);
+		updateFetch(updatedTask);
+	}
+
+	findTask(taskId) {
 		const { tasks } = this.state;
 		const updatedTask = tasks.find(task => {
 			return task.id === taskId;
 		});
-		updateFetch(updatedTask);
+		return updatedTask;
 	}
 
 	//FINISH TASK
