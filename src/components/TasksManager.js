@@ -31,8 +31,8 @@ class TasksManager extends React.Component {
 					</header>
 					<footer className='task__footer'>
 						<button
-							className='btn task__btn--start'
-							disabled={task.isDone}
+							className={task.isDone ? "isDone" : "btn"}
+							disabled={task.isDone === true ? true : false}
 							onClick={() => {
 								task.isRunning === false
 									? this.startTimer(task.id)
@@ -41,15 +41,15 @@ class TasksManager extends React.Component {
 							{task.isRunning === false || task.isDone ? "start" : "stop"}
 						</button>
 						<button
-							className='btn task__btn--finish'
-							disabled={task.isDone}
+							className={task.isDone ? "isDone" : "btn"}
+							disabled={task.isDone === false ? false : true}
 							onClick={e => this.finishTask(task.id, e)}>
 							zakończone
 						</button>
 						<button
-							className='btn task__btn--remove disabled'
+							className={task.isDone ? "btn" : "isDone"}
 							onClick={() => this.removeTask(task.id)}
-							disabled={!task.isDone}>
+							disabled={task.isDone === false ? true : false}>
 							usuń
 						</button>
 					</footer>
@@ -218,22 +218,21 @@ class TasksManager extends React.Component {
 	//FINISH TASK
 
 	finishTask = (taskId, e) => {
-		console.log("finish task");
 		clearInterval(this.interval);
 		this.interval = null;
 		this.updateFinishTask(taskId);
 
-		const clickedFinishBtn = e.target.parentElement;
-		const removeBtn = clickedFinishBtn.querySelector(".task__btn--remove");
-		removeBtn.setAttribute("disabled", "task.isDone");
-		removeBtn.classList.remove("disabled");
+		// const clickedFinishBtn = e.target.parentElement;
+		// const removeBtn = clickedFinishBtn.querySelector(".task__btn--remove");
+		// // removeBtn.setAttribute("disabled", "task.isDone");
+		// removeBtn.classList.remove("disabled");
 
-		const startStopBtn = clickedFinishBtn.querySelector(".task__btn--start");
-		startStopBtn.classList.add("disabled");
-		startStopBtn.setAttribute("disabled", "!task.isDone");
+		// const startStopBtn = clickedFinishBtn.querySelector(".task__btn--start");
+		// startStopBtn.classList.add("disabled");
+		// // startStopBtn.setAttribute("disabled", "!task.isDone");
 
-		e.target.classList.add("disabled");
-		e.target.setAttribute("disabled", "task.isDone");
+		// e.target.classList.add("disabled");
+		// // e.target.setAttribute("disabled", "task.isDone");
 	};
 
 	updateFinishTask(taskId) {
