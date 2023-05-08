@@ -1,7 +1,6 @@
 import React from "react";
 import { postFetch } from "./handleApi";
-import { updateFetch } from "./handleApi";
-import { handleFetch } from "./handleApi";
+import { updateFetch, handleFetch } from "./handleApi";
 
 class TasksManager extends React.Component {
 	state = {
@@ -18,23 +17,22 @@ class TasksManager extends React.Component {
 
 	// RENDER
 
-	renderTask() {
-		const { tasks } = this.state;
-
+	renderTask(tasks) {
 		const filteredTasks = tasks.filter(task => {
 			return task.isRemoved === false;
 		});
 
 		return filteredTasks.map(task => {
 			return (
-				<li>
-					<header>
-						<h2>{task.name}</h2>
-						<p>{this.createTimer(task.time)}</p>
+				<li className='task'>
+					<header className='task__header'>
+						<h2 className='task__name'>{task.name}</h2>
+						<p className='task__timer'>{this.createTimer(task.time)}</p>
 					</header>
-					<footer>
+					<footer className='task__footer'>
 						<button
-							disabled={task.isDone ? true : false}
+							className='btn task__btn--start'
+							disabled={task.isDone}
 							onClick={() => {
 								task.isRunning === false
 									? this.startTimer(task.id)
@@ -43,13 +41,15 @@ class TasksManager extends React.Component {
 							{task.isRunning === false || task.isDone ? "start" : "stop"}
 						</button>
 						<button
-							disabled={task.isDone ? true : false}
-							onClick={() => this.finishTask(task.id)}>
+							className='btn task__btn--finish'
+							disabled={task.isDone}
+							onClick={e => this.finishTask(task.id, e)}>
 							zakończone
 						</button>
 						<button
+							className='btn task__btn--remove disabled'
 							onClick={() => this.removeTask(task.id)}
-							disabled={task.isDone === true ? false : true}>
+							disabled={!task.isDone}>
 							usuń
 						</button>
 					</footer>
@@ -58,12 +58,24 @@ class TasksManager extends React.Component {
 		});
 	}
 
+	sortTasks() {
+		const { tasks } = this.state;
+		const sortedTasks = [...tasks].sort((a, b) => {
+			return a.isDone - b.isDone;
+		});
+
+		return sortedTasks;
+	}
+
 	render() {
+		const tasks = this.sortTasks();
 		const { task } = this.state;
 		return (
-			<>
-				<h1 onClick={this.clicker}>Tasks Manager</h1>
-				<section>
+			<section className='task__manager'>
+				<h1 className='task__manager--title' onClick={this.clicker}>
+					Tasks Manager
+				</h1>
+				<section className='task__manager--form'>
 					<form onSubmit={this.submitHandler}>
 						<label>
 							Wpisz nazwę zadania:
@@ -71,12 +83,12 @@ class TasksManager extends React.Component {
 								name='task'
 								value={task.name}
 								onChange={this.inputHandler}></input>
-							<input type='submit' />
+							<input className='btn' type='submit' />
 						</label>
 					</form>
-					<ul>{this.renderTask()}</ul>
 				</section>
-			</>
+				<ul className='tasks__list'>{this.renderTask(tasks)}</ul>
+			</section>
 		);
 	}
 
@@ -205,12 +217,23 @@ class TasksManager extends React.Component {
 
 	//FINISH TASK
 
-	finishTask = taskId => {
+	finishTask = (taskId, e) => {
 		console.log("finish task");
 		clearInterval(this.interval);
 		this.interval = null;
 		this.updateFinishTask(taskId);
-		this.updateFinishApi(taskId);
+
+		const clickedFinishBtn = e.target.parentElement;
+		const removeBtn = clickedFinishBtn.querySelector(".task__btn--remove");
+		removeBtn.setAttribute("disabled", "task.isDone");
+		removeBtn.classList.remove("disabled");
+
+		const startStopBtn = clickedFinishBtn.querySelector(".task__btn--start");
+		startStopBtn.classList.add("disabled");
+		startStopBtn.setAttribute("disabled", "!task.isDone");
+
+		e.target.classList.add("disabled");
+		e.target.setAttribute("disabled", "task.isDone");
 	};
 
 	updateFinishTask(taskId) {
@@ -228,21 +251,9 @@ class TasksManager extends React.Component {
 			},
 			() => {
 				this.updateFinishApi(taskId);
-				this.sortTasks();
 				console.log(this.state.tasks);
 			}
 		);
-	}
-
-	sortTasks() {
-		const { tasks } = this.state;
-		const sortedTasks = tasks.sort((a, b) => {
-			return a.isDone - b.isDone;
-		});
-
-		this.setState({
-			tasks: sortedTasks,
-		});
 	}
 
 	updateFinishApi(taskId) {
