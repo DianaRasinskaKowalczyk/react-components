@@ -16,18 +16,6 @@ body {
 	color: lightseagreen;
 }
 
-.btn {
-	background-color: lightseagreen;
-	padding: 5px;
-	margin: 5px;
-	color: white;
-	border: 2px solid purple;
-}
-
-.btn:hover {
-	background-color: purple;
-}
-
 .tasks__list {
 	list-style: none;
 }
@@ -51,8 +39,19 @@ body {
 	background-color: lightseagreen;
 }
 
-.isDone {
+.btn--disabled {
 	background-color: pink;
+}
+
+.btn--active {
+	background-color: lightseagreen;
+}
+
+.btn:hover {
+	background-color: purple;
+}
+
+.btn {
 	padding: 5px;
 	margin: 5px;
 	color: white;

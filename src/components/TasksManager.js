@@ -31,7 +31,7 @@ class TasksManager extends React.Component {
 					</header>
 					<footer className='task__footer'>
 						<button
-							className={task.isDone ? "isDone" : "btn"}
+							className={task.isDone ? "btn btn--disabled" : "btn btn--active"}
 							disabled={task.isDone === true ? true : false}
 							onClick={() => {
 								task.isRunning === false
@@ -41,13 +41,13 @@ class TasksManager extends React.Component {
 							{task.isRunning === false || task.isDone ? "start" : "stop"}
 						</button>
 						<button
-							className={task.isDone ? "isDone" : "btn"}
+							className={task.isDone ? "btn btn--disabled" : "btn btn--active"}
 							disabled={task.isDone === false ? false : true}
 							onClick={e => this.finishTask(task.id, e)}>
 							zakończone
 						</button>
 						<button
-							className={task.isDone ? "btn" : "isDone"}
+							className={task.isDone ? "btn btn--active" : "btn btn--disabled"}
 							onClick={() => this.removeTask(task.id)}
 							disabled={task.isDone === false ? true : false}>
 							usuń
@@ -83,7 +83,7 @@ class TasksManager extends React.Component {
 								name='task'
 								value={task.name}
 								onChange={this.inputHandler}></input>
-							<input className='btn' type='submit' />
+							<input className='btn btn--active' type='submit' />
 						</label>
 					</form>
 				</section>
@@ -221,18 +221,6 @@ class TasksManager extends React.Component {
 		clearInterval(this.interval);
 		this.interval = null;
 		this.updateFinishTask(taskId);
-
-		// const clickedFinishBtn = e.target.parentElement;
-		// const removeBtn = clickedFinishBtn.querySelector(".task__btn--remove");
-		// // removeBtn.setAttribute("disabled", "task.isDone");
-		// removeBtn.classList.remove("disabled");
-
-		// const startStopBtn = clickedFinishBtn.querySelector(".task__btn--start");
-		// startStopBtn.classList.add("disabled");
-		// // startStopBtn.setAttribute("disabled", "!task.isDone");
-
-		// e.target.classList.add("disabled");
-		// // e.target.setAttribute("disabled", "task.isDone");
 	};
 
 	updateFinishTask(taskId) {
