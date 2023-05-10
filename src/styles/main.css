@@ -35,17 +35,9 @@ body {
 	color: purple;
 }
 
-.start__button--active {
+/* .btn--active {
 	background-color: lightseagreen;
-}
-
-.btn--disabled {
-	background-color: pink;
-}
-
-.btn--active {
-	background-color: lightseagreen;
-}
+} */
 
 .btn:hover {
 	background-color: purple;
@@ -56,4 +48,9 @@ body {
 	margin: 5px;
 	color: white;
 	border: 2px solid purple;
+	background-color: lightseagreen;
+}
+
+.btn--disabled {
+	background-color: pink;
 }
