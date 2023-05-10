@@ -35,10 +35,6 @@ body {
 	color: purple;
 }
 
-/* .btn--active {
-	background-color: lightseagreen;
-} */
-
 .btn:hover {
 	background-color: purple;
 }
